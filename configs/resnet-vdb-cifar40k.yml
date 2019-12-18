@@ -1,7 +1,7 @@
 batch_size: 128
 dataset_name: CIFAR10
 debug_network: false
-device_id: cuda:1
+device_id: cpu
 epochs: null
 log_dir: ResNet20AccRegUQOOD/VDB/trainsize40000/beta0,001/seed3
 lr_scheduler_class_name: MultiStepLR
