@@ -12,6 +12,7 @@ import models
 from models.utils import save_model_kwargs, load_model_from_checkpoint
 from utils import get_dataloaders, setup_writer
 
+import yaml
 
 def train_epoch(writer,
                 model,
@@ -132,7 +133,7 @@ if __name__ == '__main__':
             debug_network=False,
             seed=2,
             dataset_name='CIFAR10',
-            model_class_name='ReducedJacMASSCE',
+            model_class_name='VDB',
             model_kwargs=dict(
                 net_name='SmallMLP',
                 net_kwargs=dict(
@@ -141,9 +142,12 @@ if __name__ == '__main__':
                     batch_norm=True,
                     dropout=False
                 ),
-                var_dist_init_strategy='zeros',
+                # var_dist_init_strategy='zeros',
                 beta=0.001,
                 n_mixture_components=2,
+                covariance_type="diag",
+                train_var_dist_samples=5, # 5
+                test_var_dist_samples=7, # 10
             ),
             normalize_inputs=True,
             batch_size=256,
@@ -154,9 +158,9 @@ if __name__ == '__main__':
             optimizer_class_name='Adam',
             optimizer_kwargs=dict(
                 lr=3e-4,
-                var_dist_optimizer_kwargs=dict(
-                    lr=5e-4
-                )
+                # var_dist_optimizer_kwargs=dict(
+                #     lr=5e-4
+                # )
             ),
             lr_scheduler_class_name='ExponentialLR',
             lr_scheduler_kwargs=dict(
@@ -168,5 +172,10 @@ if __name__ == '__main__':
             ],
             device_id='cuda:0')
     else:
-        kwargs = pickle.loads(base64.b64decode(sys.argv[1]))
+        config = sys.argv[1]
+        kwargs = yaml.safe_load(config)
+        with open(config, 'r') as stream:
+            kwargs = yaml.safe_load(stream)
+        print(kwargs)
+
     main(kwargs)

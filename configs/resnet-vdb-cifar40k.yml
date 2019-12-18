@@ -1,0 +1,41 @@
+batch_size: 128
+dataset_name: CIFAR10
+debug_network: false
+device_id: cuda:1
+epochs: null
+log_dir: ResNet20AccRegUQOOD/VDB/trainsize40000/beta0,001/seed3
+lr_scheduler_class_name: MultiStepLR
+lr_scheduler_kwargs:
+  milestones:
+  - 100
+  - 150
+model_class_name: VDB
+model_kwargs:
+  beta: 0.001
+  covariance_type: diag
+  n_mixture_components: 10
+  net_kwargs:
+    batch_norm: true
+    out_dim: 20
+  net_name: ResNet20
+  test_var_dist_samples: 20
+  train_var_dist_samples: 10
+normalize_inputs: true
+optimizer_class_name: SGD
+optimizer_kwargs:
+  lr: 0.1
+  momentum: 0.9
+seed: 3
+total_batches: 70000
+train_experiments_and_kwargs:
+- - ModelLossAndAccuracy
+  - run_interval: 5000
+# - - SaveModelParameters
+#   - run_interval: 5000
+# - - UncertaintyQuantification
+#   - run_interval: 5000
+# - - OODDetection
+#   - run_interval: 5000
+train_loss_plot_interval: 5000
+train_size: 40000
+val_size: 0.1

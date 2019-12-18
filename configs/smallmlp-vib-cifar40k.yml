@@ -1,0 +1,40 @@
+batch_size: 256
+dataset_name: CIFAR10
+debug_network: false
+device_id: cpu
+epochs: null
+log_dir: SmallMLPAccRegUQOOD/VIB/trainsize40000/beta0,001/dropout/seed0
+lr_scheduler_class_name: ExponentialLR
+lr_scheduler_kwargs:
+  gamma: 1.0
+model_class_name: VIB
+model_kwargs:
+  beta: 0.001
+  covariance_type: full
+  n_mixture_components: 10
+  net_kwargs:
+    batch_norm: true
+    dropout: true
+    nonlinearity: elu
+    out_dim: 15
+  net_name: SmallMLP
+  test_var_dist_samples: 10
+  train_var_dist_samples: 5
+normalize_inputs: true
+optimizer_class_name: Adam
+optimizer_kwargs:
+  lr: 0.0005
+seed: 0
+total_batches: 60000
+train_experiments_and_kwargs:
+- - ModelLossAndAccuracy
+  - run_interval: 5000
+# - - SaveModelParameters
+#   - run_interval: 5000
+# - - UncertaintyQuantification
+#   - run_interval: 5000
+# - - OODDetection
+#   - run_interval: 5000
+train_loss_plot_interval: 5000
+train_size: 40000
+val_size: 0.1
